@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="AnimeWatching.MainWindow"
         mc:Ignorable="d" Height="750" Width="1500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="SingleBorderWindow">
-    <Grid Background="#FF919191" Width="1500" Height="734">
-        <DockPanel LastChildFill="False" Background="#FF919191" Width="1500" Margin="0,0,0,28" Height="734">
-            <ToolBarPanel x:Name="toolBar" DockPanel.Dock="Top" Height="50" Width="1500">
-                <Grid Height="50" Width="1500" Margin="0,0,0,0" Background="#FF646464">
-                    <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="AnimeWatching" VerticalAlignment="Center" FontSize="36" FontWeight="Bold"/>
-                    <TextBox x:Name="tb_Search" TextWrapping="Wrap" Width="300" Height="30" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0,10,60,10" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5"/>
-                    <Button x:Name="bt_Search" HorizontalAlignment="Right" Width="30" Height="30" Margin="0,10,20,10" Click="Bt_Search_Click" />
-                </Grid>
-            </ToolBarPanel>
-            <Menu x:Name="menu" Width="180" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-            <ListView x:Name="lv_Search" DockPanel.Dock="Right" Width="1280" HorizontalAlignment="Right" Margin="0,0,20,0" SelectionMode="Single" MouseDoubleClick="Lv_Search_MouseDoubleClick"/>
-        </DockPanel>
-    </Grid>
+	<Grid Width="1500" Height="734" Background="#FF919191">
+		<DockPanel LastChildFill="False" Background="#FF919191" Width="1500" Margin="0,0,0,28" Height="734">
+			<ToolBarPanel x:Name="toolBar" DockPanel.Dock="Top" Height="50" Width="1500">
+				<Grid Height="50" Width="1500" Margin="0,0,0,0" Background="#FF646464">
+					<TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="AnimeWatching" VerticalAlignment="Center" FontSize="36" FontWeight="Bold"/>
+					<TextBox x:Name="tb_Search" TextWrapping="Wrap" Width="300" Height="30" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0,10,60,10" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" PreviewMouseLeftButtonDown="tb_Search_PreviewMouseLeftButtonDown"/>
+					<Button x:Name="bt_Search" HorizontalAlignment="Right" Width="30" Height="30" Margin="0,10,20,10" Click="Bt_Search_Click" Background="#FFDDDDDD" />
+				</Grid>
+			</ToolBarPanel>
+			<Menu x:Name="menu" Width="180" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+			<ListView x:Name="lv_Search" DockPanel.Dock="Right" Width="1280" HorizontalAlignment="Right" Margin="0,0,20,0" SelectionMode="Single" MouseDoubleClick="Lv_Search_MouseDoubleClick" RenderTransformOrigin="0.5,0.5" Background="White"/>
+		</DockPanel>
+	</Grid>
 </Window>

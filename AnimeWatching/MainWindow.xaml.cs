@@ -33,24 +33,24 @@ namespace AnimeWatching
 		}
 
 
-        private void Bt_Search_Click(object sender, RoutedEventArgs e)
-        {
+		private void Bt_Search_Click(object sender, RoutedEventArgs e)
+		{
 			episodeList.Clear();
 			lv_Search.Items.Clear();
 			string search = tb_Search.Text;
 			foreach(Anime anime in animeList)
-            {
+			{
 				if(anime.Name.ToUpper().Contains(search.ToUpper()))
-                {
+				{
 					lv_Search.Items.Add(anime.Name);
-                }
-            }
-        }
+				}
+			}
+		}
 
-        private void Lv_Search_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
+		private void Lv_Search_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
 			if(lv_Search.SelectedItem != null)
-            {
+			{
 				string search = lv_Search.SelectedItem.ToString();
 				//Episode
 				if (episodeList.Count > 0)
@@ -64,14 +64,21 @@ namespace AnimeWatching
 						}
 					}
 					string linkPlayer = scraping.SearchPlayer(episode);
-					PlayerWindow playerWindow = new PlayerWindow(linkPlayer);
-					this.Visibility = Visibility.Hidden;
-					playerWindow.ShowDialog();
-					this.Visibility = Visibility.Visible;
+					if(linkPlayer != null)
+					{
+						PlayerWindow playerWindow = new PlayerWindow(linkPlayer);
+						this.Visibility = Visibility.Hidden;
+						playerWindow.ShowDialog();
+						this.Visibility = Visibility.Visible;
+					}
+					else
+					{
+						MessageBox.Show("Error, L'épisode est indisponible !");
+					}
 				}
 				//Anime
 				else
-                {
+				{
 					Anime anime = new Anime();
 					foreach (Anime animeItem in animeList)
 					{
@@ -83,19 +90,24 @@ namespace AnimeWatching
 					}
 					episodeList = scraping.SearchEpisode(anime);
 					if(episodeList.Count > 0)
-                    {
+					{
 						lv_Search.Items.Clear();
 						foreach (Episode episode in episodeList)
 						{
 							lv_Search.Items.Add(episode.Name);
 						}
-                    }
+					}
 					else
-                    {
-						MessageBox.Show("Error, aucun épisode disponible !");
-                    }
-                }
-            }
+					{
+						MessageBox.Show("Error, aucun épisodes disponible !");
+					}
+				}
+			}
+		}
+
+		private void tb_Search_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			tb_Search.Clear();
 		}
 	}
 }
