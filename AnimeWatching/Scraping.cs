@@ -21,27 +21,12 @@ namespace AnimeWatching
 			{
 				Encoding = Encoding.UTF8
 			};
-			var configJson = StructuredDataConfig.ParseJsonString(@"
-			{
-				'name': '//ul[contains(@class, \'columns\')]/li/a',
-				'link': '//ul[contains(@class, \'columns\')]/li/a/@href'
-			}
-			");
-			string website = webClient.DownloadString("http://www.mavanimes.co/tous-les-animes-en-vostfr-fullhd-2/");
-			var openScraping = new StructuredDataExtractor(configJson);
-			var scrapingResults = openScraping.Extract(website);
 
-			List<Anime> anime = new List<Anime>();
-			int count = 0;
-			foreach (var item in scrapingResults["name"])
-			{
-				anime.Add(new Anime());
-				anime[count].Name = scrapingResults["name"][count].ToString();
-				anime[count].Link = scrapingResults["link"][count].ToString();
-				count++;
-			}
+			string website = webClient.DownloadString("https://neko-sama.fr/animes-search-vostfr.json");
+			List<Anime> json = JsonConvert.DeserializeObject<List<Anime>>(website);
+
 			webClient.Dispose();
-			return anime;
+			return json;
 		}
 
 		public List<Episode> SearchEpisode(Anime anime)
@@ -50,30 +35,55 @@ namespace AnimeWatching
 			{
 				Encoding = Encoding.UTF8
 			};
+
 			var configJson = StructuredDataConfig.ParseJsonString(@"
 			{
-				'name': '//h2[contains(@class, \'raees\')]/a',
-				'link': '//h2[contains(@class, \'raees\')]/a/@href'
+				'name': '//div[contains(@class, \'text\')]/a/div',
+				'link': '//div[contains(@class, \'text\')]/a/@href'
 			}
 			");
-			string website = webClient.DownloadString(anime.Link);
+
+			string website = webClient.DownloadString("https://neko-sama.fr/" + anime.Url);
 			var openScraping = new StructuredDataExtractor(configJson);
 			var scrapingResults = openScraping.Extract(website);
 
-			List<Episode> episode = new List<Episode>();
-			if(scrapingResults["name"] != null)
+			List<Episode> episodeList = new List<Episode>();
+			try
 			{
-				int count = 0;
-				foreach (var item in scrapingResults["name"])
+				string name = scrapingResults["name"][0].ToString();
+				string link = "https://neko-sama.fr" + scrapingResults["link"][0].ToString();
+
+				if(name != null)
 				{
-					episode.Add(new Episode());
-					episode[count].Name = scrapingResults["name"][count].ToString();
-					episode[count].Link = scrapingResults["link"][count].ToString();
-					count++;
+					for(int i = 0; i < Convert.ToInt16(anime.Numbers.Split(' ')[0]); i++)
+					{
+						string[] separatingStrings = { "-01-" };
+						string[] linkNE = link.Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
+						string nb;
+						if(i < 9)
+						{
+							nb = "0" + (i + 1);
+						}
+						else
+						{
+							nb = (i + 1).ToString();
+						}
+					
+						Episode episode = new Episode
+						{
+							Name = name,
+							Number = "Ep " + nb,
+							Link = linkNE[0] + "-" + nb + "-vostfr"
+						};
+						episodeList.Add(episode);
+					}
 				}
 			}
+			catch
+			{
+			}
 			webClient.Dispose();
-			return episode;
+			return episodeList;
 		}
 
 		public string SearchPlayer(Episode episode)
@@ -84,43 +94,59 @@ namespace AnimeWatching
 			};
 			var configJson = StructuredDataConfig.ParseJsonString(@"
 			{
-				'link': '//iframe/@src'
+				'script': '//script[contains(@type, \'text/javascript\')]'
 			}
 			");
 			string website = webClient.DownloadString(episode.Link);
 			var openScraping = new StructuredDataExtractor(configJson);
 			var scrapingResults = openScraping.Extract(website);
-			string linkPlayer = null;
-			if (scrapingResults["link"] != null)
+			string urlPlayer = null;
+
+			List<string> result = new List<string>();
+
+			foreach(var scrapingResult in scrapingResults["script"])
 			{
-				foreach (string item in scrapingResults["link"])
+				if(scrapingResult.ToString() != "")
 				{
-					//Ban : mavplayer
-					if (item.ToString().Contains("mavplay.") ||
-						item.ToString().Contains("gounlimited") ||
-						item.ToString().Contains("streamtape") ||
-						//item.ToString().Contains("sendvid") ||
-						item.ToString().Contains("ok"))
+					string[] sr = scrapingResult.ToString().Split('\n');
+					foreach(var sr2 in sr)
 					{
-						linkPlayer = item.ToString();
-						break;
+						if(sr2.Contains("video[0]"))
+						{
+							result.Add(sr2);
+						}
 					}
 				}
 			}
+			char[] charsToTrim = { '\'', ' ', ';' };
+			urlPlayer = result[1].Split('=')[1].Trim(charsToTrim);
+
 			webClient.Dispose();
-			return linkPlayer;
+			return urlPlayer;
 		}
 	}
 
 	public class Anime
 	{
+		[JsonProperty("title")]
 		public string Name { get; set; }
-		public string Link { get; set; }
+
+		[JsonProperty("url")]
+		public string Url { get; set; }
+
+		[JsonProperty("nb_eps")]
+		public string Numbers { get; set; }
 	}
 
 	public class Episode
 	{
+		[JsonProperty("name")]
 		public string Name { get; set; }
+
+		[JsonProperty("number")]
+		public string Number { get; set; }
+
+		[JsonProperty("link")]
 		public string Link { get; set; }
 	}
 }

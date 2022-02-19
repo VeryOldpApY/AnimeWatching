@@ -58,7 +58,7 @@ namespace AnimeWatching
 					Episode episode = new Episode();
 					foreach (Episode episodeItem in episodeList)
 					{
-						if (episodeItem.Name.ToUpper().Contains(search.ToUpper()))
+						if (search.Contains(episodeItem.Number))
 						{
 							episode = episodeItem;
 						}
@@ -94,7 +94,7 @@ namespace AnimeWatching
 						lv_Search.Items.Clear();
 						foreach (Episode episode in episodeList)
 						{
-							lv_Search.Items.Add(episode.Name);
+							lv_Search.Items.Add(episode.Name + " - " + episode.Number);
 						}
 					}
 					else
@@ -105,9 +105,9 @@ namespace AnimeWatching
 			}
 		}
 
-		private void tb_Search_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		private void Tb_Search_PreviewKeyUp(object sender, KeyEventArgs e)
 		{
-			tb_Search.Clear();
+			Bt_Search_Click(sender, e);
 		}
 	}
 }

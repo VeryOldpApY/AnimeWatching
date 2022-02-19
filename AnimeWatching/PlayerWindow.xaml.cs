@@ -34,5 +34,10 @@ namespace AnimeWatching
 		{
 			e.Handled = true;
 		}
+
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			PlayerAnime.Source = new Uri("https://google.com");
+		}
 	}
 }
