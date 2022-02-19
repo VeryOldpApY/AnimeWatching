@@ -1,7 +1,18 @@
-**AnimeWatching**
+# AnimeWatching
+
+A Windows application allowing to watch anime without ads and simply[^Disclaimer].
+
+This application does web scraping on : [Neko-Sama](https://neko-sama.fr/)
 
 ---
+**Require WebView2 for work**
 
 If when launching a video, the window that opens remains white :
 
-Download this https://go.microsoft.com/fwlink/p/?LinkId=2124703 
+Download this [WebView2](https://developer.microsoft.com/fr-fr/microsoft-edge/webview2/) 
+
+[^Disclaimer]: Disclaimer :
+This application does not host any video,
+and is a simple private fun project,
+the code is public for those who wish to discover my work.
+If there is a problem with this application, don't hesitate to contact me, I will act according to the request.
