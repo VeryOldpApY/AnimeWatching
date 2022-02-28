@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnimeWatching"
         xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" x:Class="AnimeWatching.PlayerWindow"
-        mc:Ignorable="d" Height="500" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" WindowState="Maximized" Closed="Window_Closed">
+        mc:Ignorable="d" Height="500" Width="1000" WindowStartupLocation="CenterOwner" WindowStyle="SingleBorderWindow" WindowState="Maximized" Closed="Window_Closed">
     <Grid>
         <Wpf:WebView2 x:Name="PlayerAnime" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CoreWebView2InitializationCompleted="PlayerAnime_CoreWebView2InitializationCompleted"/>
     </Grid>

@@ -36,10 +36,9 @@ namespace AnimeWatching
 				Encoding = Encoding.UTF8
 			};
 
-			var configJson = StructuredDataConfig.ParseJsonString(@"
+			var configJson = StructuredDataConfig.ParseJsonString(/*lang=json*/ @"
 			{
-				'name': '//div[contains(@class, \'text\')]/a/div',
-				'link': '//div[contains(@class, \'text\')]/a/@href'
+				'script': '//script[contains(@type, \'text/javascript\')]'
 			}
 			");
 
@@ -50,34 +49,22 @@ namespace AnimeWatching
 			List<Episode> episodeList = new List<Episode>();
 			try
 			{
-				string name = scrapingResults["name"][0].ToString();
-				string link = "https://neko-sama.fr" + scrapingResults["link"][0].ToString();
-
-				if(name != null)
+				string result = null;
+				foreach(var scrapingResult in scrapingResults["script"])
 				{
-					for(int i = 0; i < Convert.ToInt16(anime.Numbers.Split(' ')[0]); i++)
+					string[] script = scrapingResult.ToString().Split('\n');
+					foreach(var line in script)
 					{
-						string[] separatingStrings = { "-01-" };
-						string[] linkNE = link.Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
-						string nb;
-						if(i < 9)
+						if(line.Contains("var episodes ="))
 						{
-							nb = "0" + (i + 1);
+							result = line;
 						}
-						else
-						{
-							nb = (i + 1).ToString();
-						}
-					
-						Episode episode = new Episode
-						{
-							Name = name,
-							Number = "Ep " + nb,
-							Link = linkNE[0] + "-" + nb + "-vostfr"
-						};
-						episodeList.Add(episode);
 					}
 				}
+				char[] charsToTrim = { ' ', ';' };
+				string json = result.Split('=')[1].Trim(charsToTrim);
+
+				episodeList = JsonConvert.DeserializeObject<List<Episode>>(json);
 			}
 			catch
 			{
@@ -92,15 +79,15 @@ namespace AnimeWatching
 			{
 				Encoding = Encoding.UTF8
 			};
-			var configJson = StructuredDataConfig.ParseJsonString(@"
+			var configJson = StructuredDataConfig.ParseJsonString(/*lang=json*/ @"
 			{
 				'script': '//script[contains(@type, \'text/javascript\')]'
 			}
 			");
-			string website = webClient.DownloadString(episode.Link);
+			string website = webClient.DownloadString("https://neko-sama.fr/" + episode.Url);
 			var openScraping = new StructuredDataExtractor(configJson);
 			var scrapingResults = openScraping.Extract(website);
-			string urlPlayer = null;
+			string urlPlayer;
 
 			List<string> result = new List<string>();
 
@@ -133,20 +120,14 @@ namespace AnimeWatching
 
 		[JsonProperty("url")]
 		public string Url { get; set; }
-
-		[JsonProperty("nb_eps")]
-		public string Numbers { get; set; }
 	}
 
 	public class Episode
 	{
-		[JsonProperty("name")]
-		public string Name { get; set; }
-
-		[JsonProperty("number")]
+		[JsonProperty("episode")]
 		public string Number { get; set; }
 
-		[JsonProperty("link")]
-		public string Link { get; set; }
+		[JsonProperty("url")]
+		public string Url { get; set; }
 	}
 }

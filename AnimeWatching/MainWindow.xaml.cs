@@ -94,7 +94,7 @@ namespace AnimeWatching
 						lv_Search.Items.Clear();
 						foreach (Episode episode in episodeList)
 						{
-							lv_Search.Items.Add(episode.Name + " - " + episode.Number);
+							lv_Search.Items.Add(anime.Name + " - " + episode.Number);
 						}
 					}
 					else
