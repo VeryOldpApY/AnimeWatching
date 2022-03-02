@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
 using OpenScraping;
 using OpenScraping.Config;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AnimeWatching
 {
@@ -15,14 +11,22 @@ namespace AnimeWatching
 	{
 		private WebClient webClient;
 
-		public List<Anime> SearchAnime()
+		public List<Anime> SearchAnime(string vers)
 		{
 			webClient = new WebClient
 			{
 				Encoding = Encoding.UTF8
 			};
 
-			string website = webClient.DownloadString("https://neko-sama.fr/animes-search-vostfr.json");
+			string website = null;
+			if(vers == "VostFr")
+			{
+				website = webClient.DownloadString("https://neko-sama.fr/animes-search-vostfr.json");
+			}
+			else if(vers == "VF")
+			{
+				website = webClient.DownloadString("https://neko-sama.fr/animes-search-vf.json");
+			}
 			List<Anime> json = JsonConvert.DeserializeObject<List<Anime>>(website);
 
 			webClient.Dispose();
@@ -41,7 +45,6 @@ namespace AnimeWatching
 				'script': '//script[contains(@type, \'text/javascript\')]'
 			}
 			");
-
 			string website = webClient.DownloadString("https://neko-sama.fr/" + anime.Url);
 			var openScraping = new StructuredDataExtractor(configJson);
 			var scrapingResults = openScraping.Extract(website);
@@ -95,12 +98,11 @@ namespace AnimeWatching
 			{
 				if(scrapingResult.ToString() != "")
 				{
-					string[] sr = scrapingResult.ToString().Split('\n');
-					foreach(var sr2 in sr)
+					foreach(var line in scrapingResult.ToString().Split('\n'))
 					{
-						if(sr2.Contains("video[0]"))
+						if(line.Contains("video[0]"))
 						{
-							result.Add(sr2);
+							result.Add(line);
 						}
 					}
 				}
@@ -117,6 +119,9 @@ namespace AnimeWatching
 	{
 		[JsonProperty("title")]
 		public string Name { get; set; }
+
+		[JsonProperty("title_romanji")]
+		public string OtherName { get; set; }
 
 		[JsonProperty("url")]
 		public string Url { get; set; }

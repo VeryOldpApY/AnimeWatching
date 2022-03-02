@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Web.WebView2.Wpf;
 
 namespace AnimeWatching
 {
@@ -37,7 +38,29 @@ namespace AnimeWatching
 
 		private void Window_Closed(object sender, EventArgs e)
 		{
-			PlayerAnime.Source = new Uri("https://google.com");
+			PlayerAnime.Dispose();
+		}
+
+		private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			this.DragMove();
+		}
+
+		private void Bt_Close_Click(object sender, RoutedEventArgs e)
+		{
+			this.Close();
+		}
+
+		private void label_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			if (this.WindowState == WindowState.Maximized)
+			{
+				this.WindowState = WindowState.Normal;
+			}
+			else if (this.WindowState == WindowState.Normal)
+			{
+				this.WindowState = WindowState.Maximized;
+			}
 		}
 	}
 }
