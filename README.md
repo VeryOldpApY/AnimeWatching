@@ -1,5 +1,7 @@
 # AnimeWatching
 
+![image](https://user-images.githubusercontent.com/12466017/159133140-28b17d1f-9612-4af5-8fd3-6f40f4d6a7bb.png)
+
 A Windows application allowing to watch anime without ads and simply[^Disclaimer].
 
 This application does web scraping on : [Neko-Sama](https://neko-sama.fr/)
