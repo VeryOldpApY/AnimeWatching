@@ -9,7 +9,7 @@
 	<Grid>
 		<DockPanel>
 			<Grid Height="30" DockPanel.Dock="Top" Background="Black" >
-				<Label x:Name="label" Content="AnimeWatching" Width="1250" FontFamily="Consolas" FontSize="18" FontWeight="Bold" FontStyle="Italic" Visibility="Visible" HorizontalAlignment="Left" Height="31" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown" Foreground="White" Grid.RowSpan="1" PreviewMouseDoubleClick="label_PreviewMouseDoubleClick"/>
+				<Label x:Name="label" Width="1250" FontFamily="Consolas" FontSize="18" FontWeight="Bold" FontStyle="Italic" Visibility="Visible" HorizontalAlignment="Left" Height="31" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown" Foreground="White" Grid.RowSpan="1" PreviewMouseDoubleClick="Label_PreviewMouseDoubleClick" Content="AnimeWatching" BorderThickness="0,0,0,0" Padding="0,0,0,0"/>
 				<Button x:Name="bt_Close" Content="❌" Width="30" DockPanel.Dock="Top" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Click="Bt_Close_Click" Background="Black" Foreground="Red"/>
 			</Grid>
 			<Wpf:WebView2 x:Name="PlayerAnime" CoreWebView2InitializationCompleted="PlayerAnime_CoreWebView2InitializationCompleted"/>

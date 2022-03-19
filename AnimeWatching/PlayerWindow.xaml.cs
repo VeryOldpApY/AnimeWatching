@@ -51,7 +51,7 @@ namespace AnimeWatching
 			this.Close();
 		}
 
-		private void label_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+		private void Label_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			if (this.WindowState == WindowState.Maximized)
 			{

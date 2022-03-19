@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Web.WebView2.Core;
 
 namespace AnimeWatching
 {
@@ -10,34 +13,33 @@ namespace AnimeWatching
 		private List<Episode> episodeList = new List<Episode>();
 		readonly Scraping scraping = new Scraping();
 		private string vers;
+		public Visibility ViImg { get; set; }
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			animeList = scraping.SearchAnime("VostFr");
-			foreach(Anime anime in animeList)
+			try
 			{
-				lv_Anime.Items.Add(anime.Name);
+				CoreWebView2Environment.GetAvailableBrowserVersionString();
 			}
+			catch
+			{
+				MessageBox.Show("WebView2 Require !");
+				Application.Current.Shutdown();
+			}
+			
+			animeList = scraping.SearchAnime("VostFr");
+			lv_Anime.ItemsSource = animeList;
+			//DataTemplate dataTemplate = lv_Anime.DataContext as DataTemplate;
 		}
-
-
 
 		private void Lv_Search_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			string selectedAnime = lv_Anime.SelectedItem.ToString();
 			//Episode
 			if (episodeList.Count > 0)
 			{
-				Episode episode = new Episode();
-				foreach (Episode episodeItem in episodeList)
-				{
-					if (selectedAnime.Contains(episodeItem.Number))
-					{
-						episode = episodeItem;
-					}
-				}
-				string linkPlayer = scraping.SearchPlayer(episode);
+				Episode selectedEpisode = (Episode)lv_Anime.SelectedItem;
+				string linkPlayer = scraping.SearchPlayer(selectedEpisode);
 				if(linkPlayer != null)
 				{
 					PlayerWindow playerWindow = new PlayerWindow(linkPlayer);
@@ -53,23 +55,11 @@ namespace AnimeWatching
 			//Anime
 			else
 			{
-				Anime anime = new Anime();
-				foreach (Anime animeItem in animeList)
-				{
-					if (animeItem.Name.ToUpper() == selectedAnime.ToUpper())
-					{
-						anime = animeItem;
-						break;
-					}
-				}
-				episodeList = scraping.SearchEpisode(anime);
+				Anime selectedAnime = (Anime)lv_Anime.SelectedItem;
+				episodeList = scraping.SearchEpisode(selectedAnime);
 				if(episodeList.Count > 0)
 				{
-					lv_Anime.Items.Clear();
-					foreach(Episode episode in episodeList)
-					{
-						lv_Anime.Items.Add(anime.Name + " - " + episode.Number);
-					}
+					lv_Anime.ItemsSource = episodeList;
 				}
 				else
 				{
@@ -80,8 +70,13 @@ namespace AnimeWatching
 		private void Bt_Search_Click(object sender, RoutedEventArgs e)
 		{
 			episodeList.Clear();
-			lv_Anime.Items.Clear();
+			lv_Anime.ItemsSource = null;
 			string search = tb_Search.Text;
+			if(search == null)
+			{
+				search = "";
+			}
+			List<Anime> animeSearch = new List<Anime>();
 			foreach(Anime anime in animeList)
 			{
 				if(anime.OtherName == null)
@@ -90,9 +85,10 @@ namespace AnimeWatching
 				}
 				if(anime.Name.ToUpper().Contains(search.ToUpper()) || anime.OtherName.ToUpper().Contains(search.ToUpper()))
 				{
-					lv_Anime.Items.Add(anime.Name);
+					animeSearch.Add(anime);
 				}
 			}
+			lv_Anime.ItemsSource = animeSearch;
 		}
 
 		private void Tb_Search_PreviewKeyUp(object sender, KeyEventArgs e)
@@ -104,12 +100,8 @@ namespace AnimeWatching
 			episodeList.Clear();
 			tb_Search.Clear();
 			vers = cb_VersAnime.Text;
-			lv_Anime.Items.Clear();
 			animeList = scraping.SearchAnime(vers);
-			foreach(Anime anime in animeList)
-			{
-				lv_Anime.Items.Add(anime.Name);
-			}
+			lv_Anime.ItemsSource = animeList;
 		}
 
 		private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

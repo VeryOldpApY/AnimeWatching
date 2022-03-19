@@ -125,6 +125,9 @@ namespace AnimeWatching
 
 		[JsonProperty("url")]
 		public string Url { get; set; }
+
+		[JsonProperty("url_image")]
+		public string UrlImg { get; set; }
 	}
 
 	public class Episode

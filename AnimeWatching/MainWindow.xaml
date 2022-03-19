@@ -8,7 +8,7 @@
 	<Grid Width="1280" Height="720" Background="#FF4B4B4B" VerticalAlignment="Center" HorizontalAlignment="Center">
 		<DockPanel LastChildFill="False" Background="#FF4B4B4B" Width="1280" Height="720" HorizontalAlignment="Center" VerticalAlignment="Top">
 			<Grid Height="30" DockPanel.Dock="Top" Background="Black" >
-				<Label x:Name="label" Content="AnimeWatching" Width="1250" FontFamily="Consolas" FontSize="18" FontWeight="Bold" FontStyle="Italic" Visibility="Visible" HorizontalAlignment="Left" Height="31" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown" Foreground="White" Grid.RowSpan="1"/>
+				<Label x:Name="label" Content="AnimeWatching" Width="1250" FontFamily="Consolas" FontSize="18" FontWeight="Bold" FontStyle="Italic" Visibility="Visible" HorizontalAlignment="Left" Height="31" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown" Foreground="White" Grid.RowSpan="1" Padding="0,0,0,0"/>
 				<Button x:Name="bt_Close" Content="❌" Width="30" DockPanel.Dock="Top" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Click="Bt_Close_Click" Background="Black" Foreground="Red"/>
 			</Grid>
 			<Grid DockPanel.Dock="Top" Height="50" Background="#FF4B4B4B">
@@ -24,7 +24,17 @@
 					</Button.Background>
 				</Button>
 			</Grid>
-			<ListView x:Name="lv_Anime" SelectionMode="Single" MouseDoubleClick="Lv_Search_MouseDoubleClick" Background="#FF323232" DockPanel.Dock="Top" Width="1270" FontFamily="Consolas" FontSize="14" Height="635" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+			<ListView x:Name="lv_Anime" SelectionMode="Single" MouseDoubleClick="Lv_Search_MouseDoubleClick" Background="#FF323232" DockPanel.Dock="Top" Width="1270" FontFamily="Consolas" FontSize="14" Height="635" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<WrapPanel>
+							<Image x:Name="Img_Anime" Source="{Binding UrlImg}" Visibility="{Binding ViImg}" MaxWidth="100"/>
+							<Label x:Name="Lbl_NameAnime" Content="{Binding Name}" VerticalContentAlignment="Center" Foreground="White" />
+							<Label x:Name="Lbl_Eps" Content="{Binding Number}" Foreground="White" />
+						</WrapPanel>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
 		</DockPanel>
 	</Grid>
 </Window>
