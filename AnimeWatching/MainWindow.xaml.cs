@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Web.WebView2.Core;
 
@@ -112,5 +113,10 @@ namespace AnimeWatching
 		{
 			Application.Current.Shutdown();
 		}
-	}
+
+        private void Bt_Min_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+    }
 }

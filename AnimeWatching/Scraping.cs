@@ -31,7 +31,7 @@ namespace AnimeWatching
 
 			webClient.Dispose();
 			return json;
-		}
+		} 
 
 		public List<Episode> SearchEpisode(Anime anime)
 		{
@@ -137,5 +137,8 @@ namespace AnimeWatching
 
 		[JsonProperty("url")]
 		public string Url { get; set; }
-	}
+
+        [JsonProperty("title")]
+        public string Name { get; set; }
+    }
 }

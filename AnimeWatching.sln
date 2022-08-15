@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32127.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimeWatching", "AnimeWatching\AnimeWatching.csproj", "{C473DD5D-702D-4569-8248-B3640EE7A7B5}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AnimeWatchingSetup", "AnimeWatchingSetup\AnimeWatchingSetup.vdproj", "{18185735-E66F-4872-8840-6831768CA6EF}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AnimeWatchingSetup", "AnimeWatchingSetup\AnimeWatchingSetup.vdproj", "{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,16 +41,26 @@ Global
 		{C473DD5D-702D-4569-8248-B3640EE7A7B5}.Release|x64.Build.0 = Release|Any CPU
 		{C473DD5D-702D-4569-8248-B3640EE7A7B5}.Release|x86.ActiveCfg = Release|Win32
 		{C473DD5D-702D-4569-8248-B3640EE7A7B5}.Release|x86.Build.0 = Release|Win32
-		{18185735-E66F-4872-8840-6831768CA6EF}.Debug|Any CPU.ActiveCfg = Debug
-		{18185735-E66F-4872-8840-6831768CA6EF}.Debug|ARM.ActiveCfg = Debug
-		{18185735-E66F-4872-8840-6831768CA6EF}.Debug|ARM64.ActiveCfg = Debug
-		{18185735-E66F-4872-8840-6831768CA6EF}.Debug|x64.ActiveCfg = Debug
-		{18185735-E66F-4872-8840-6831768CA6EF}.Debug|x86.ActiveCfg = Debug
-		{18185735-E66F-4872-8840-6831768CA6EF}.Release|Any CPU.ActiveCfg = Release
-		{18185735-E66F-4872-8840-6831768CA6EF}.Release|ARM.ActiveCfg = Release
-		{18185735-E66F-4872-8840-6831768CA6EF}.Release|ARM64.ActiveCfg = Release
-		{18185735-E66F-4872-8840-6831768CA6EF}.Release|x64.ActiveCfg = Release
-		{18185735-E66F-4872-8840-6831768CA6EF}.Release|x86.ActiveCfg = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|Any CPU.ActiveCfg = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|Any CPU.Build.0 = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|ARM.ActiveCfg = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|ARM.Build.0 = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|ARM64.ActiveCfg = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|ARM64.Build.0 = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|x64.ActiveCfg = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|x64.Build.0 = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|x86.ActiveCfg = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Debug|x86.Build.0 = Debug
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|Any CPU.ActiveCfg = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|Any CPU.Build.0 = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|ARM.ActiveCfg = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|ARM.Build.0 = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|ARM64.ActiveCfg = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|ARM64.Build.0 = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|x64.ActiveCfg = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|x64.Build.0 = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|x86.ActiveCfg = Release
+		{A14D82AB-3344-4D0F-98F0-43E1FDAF1BAA}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
