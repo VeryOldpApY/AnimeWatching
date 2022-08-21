@@ -5,6 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="AnimeWatching.MainWindow"
         mc:Ignorable="d" Height="720" Width="1280" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="Black">
+	<Window.Resources>
+		<DataTemplate x:Key="AnimeListTemplate">
+			<WrapPanel>
+				<Image x:Name="Img_Anime" Source="{Binding UrlImg}" MaxWidth="100"/>
+				<Label x:Name="Lbl_Anime" Content="{Binding Name}" VerticalContentAlignment="Center" Foreground="White" />
+			</WrapPanel>
+		</DataTemplate>
+		<DataTemplate x:Key="EpisodeListTemplate">
+			<WrapPanel>
+				<Label x:Name="Lbl_Eps" Content="{Binding Number}" Foreground="White" />
+			</WrapPanel>
+		</DataTemplate>
+	</Window.Resources>
 	<Grid Width="1280" Height="720" Background="#FF4B4B4B" VerticalAlignment="Center" HorizontalAlignment="Center">
 		<DockPanel LastChildFill="False" Background="#FF4B4B4B" Width="1280" Height="720" HorizontalAlignment="Center" VerticalAlignment="Top">
 			<Grid Height="30" DockPanel.Dock="Top" Background="Black" >
@@ -25,17 +38,7 @@
 					</Button.Background>
 				</Button>
 			</Grid>
-			<ListView x:Name="lv_Anime" SelectionMode="Single" MouseDoubleClick="Lv_Search_MouseDoubleClick" Background="#FF323232" DockPanel.Dock="Top" Width="1270" FontFamily="Consolas" FontSize="14" Height="635" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<WrapPanel>
-							<Image x:Name="Img_Anime" Source="{Binding UrlImg}" Visibility="{Binding ViImg}" MaxWidth="100"/>
-							<Label x:Name="Lbl_NameAnime" Content="{Binding Name}" VerticalContentAlignment="Center" Foreground="White" />
-							<Label x:Name="Lbl_Eps" Content="{Binding Number}" Foreground="White" />
-						</WrapPanel>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
+			<ListView x:Name="lv_Anime" SelectionMode="Single" MouseDoubleClick="Lv_Search_MouseDoubleClick" Background="#FF323232" DockPanel.Dock="Top" Width="1270" FontFamily="Consolas" FontSize="14" Height="635" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
 		</DockPanel>
 	</Grid>
 </Window>

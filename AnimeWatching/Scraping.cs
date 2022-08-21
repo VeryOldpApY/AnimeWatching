@@ -11,7 +11,7 @@ namespace AnimeWatching
 	{
 		private WebClient webClient;
 
-		public List<Anime> SearchAnime(string vers)
+		public List<Anime> SearchAnime(string lang)
 		{
 			webClient = new WebClient
 			{
@@ -19,11 +19,11 @@ namespace AnimeWatching
 			};
 
 			string website = null;
-			if(vers == "VostFr")
+			if(lang == "VostFr")
 			{
 				website = webClient.DownloadString("https://neko-sama.fr/animes-search-vostfr.json");
 			}
-			else if(vers == "VF")
+			else if(lang == "VF")
 			{
 				website = webClient.DownloadString("https://neko-sama.fr/animes-search-vf.json");
 			}

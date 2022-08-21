@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Microsoft.Web.WebView2.Core;
 
@@ -12,14 +14,15 @@ namespace AnimeWatching
 		private List<Anime> animeList = new List<Anime>();
 		private List<Episode> episodeList = new List<Episode>();
 		readonly Scraping scraping = new Scraping();
-		private string vers;
-		public Visibility ViImg { get; set; }
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			try
-			{
+			#if DEBUG
+				System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
+			#endif
+            try
+            {
 				CoreWebView2Environment.GetAvailableBrowserVersionString();
 			}
 			catch
@@ -27,25 +30,39 @@ namespace AnimeWatching
 				MessageBox.Show("WebView2 Require !");
 				Application.Current.Shutdown();
 			}
-			
-			animeList = scraping.SearchAnime("VostFr");
-			lv_Anime.ItemsSource = animeList;
-			//DataTemplate dataTemplate = lv_Anime.DataContext as DataTemplate;
+			AnimeShow("VostFr");
 		}
+
+		private void AnimeShow(string lang)
+		{
+            animeList = scraping.SearchAnime(lang);
+            List<ListViewItem> animes = new List<ListViewItem>();
+            foreach(Anime anime in animeList)
+            {
+                ListViewItem animeItem = new ListViewItem
+                {
+                    ContentTemplate = (DataTemplate)FindResource("AnimeListTemplate"),
+                    Content = anime
+                };
+                animes.Add(animeItem);
+            }
+            lv_Anime.ItemsSource = animes;
+        }
 
 		private void Lv_Search_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			//Episode
 			if (episodeList.Count > 0)
 			{
-				Episode selectedEpisode = (Episode)lv_Anime.SelectedItem;
-				string linkPlayer = scraping.SearchPlayer(selectedEpisode);
+                ListViewItem selectedEpisode = (ListViewItem)lv_Anime.SelectedItem;
+                Episode episode = (Episode)selectedEpisode.Content;
+				string linkPlayer = scraping.SearchPlayer(episode);
 				if(linkPlayer != null)
 				{
 					PlayerWindow playerWindow = new PlayerWindow(linkPlayer);
-					this.Visibility = Visibility.Hidden;
+					Visibility = Visibility.Hidden;
 					playerWindow.ShowDialog();
-					this.Visibility = Visibility.Visible;
+					Visibility = Visibility.Visible;
 				}
 				else
 				{
@@ -55,12 +72,23 @@ namespace AnimeWatching
 			//Anime
 			else
 			{
-				Anime selectedAnime = (Anime)lv_Anime.SelectedItem;
-				episodeList = scraping.SearchEpisode(selectedAnime);
+                ListViewItem selectedAnime = (ListViewItem)lv_Anime.SelectedItem;
+				Anime anime = (Anime)selectedAnime.Content;
+				episodeList = scraping.SearchEpisode(anime);
 				if(episodeList.Count > 0)
 				{
-					lv_Anime.ItemsSource = episodeList;
-				}
+                    List<ListViewItem> episodes = new List<ListViewItem>();
+                    foreach(Episode episode in episodeList)
+                    {
+                        ListViewItem animeItem = new ListViewItem
+                        {
+                            ContentTemplate = (DataTemplate)FindResource("EpisodeListTemplate"),
+                            Content = episode
+                        };
+                        episodes.Add(animeItem);
+                    }
+                    lv_Anime.ItemsSource = episodes;
+                }
 				else
 				{
 					MessageBox.Show("Error, No episodes available !");
@@ -76,22 +104,27 @@ namespace AnimeWatching
 			{
 				search = "";
 			}
-			List<Anime> animeSearch = new List<Anime>();
-			foreach(Anime anime in animeList)
+            List<ListViewItem> animesSearch = new List<ListViewItem>();
+            foreach(Anime anime in animeList)
 			{
-				if(anime.OtherName == null)
+                if(anime.OtherName == null)
 				{
 					anime.OtherName = "";
 				}
 				if(anime.Name.ToUpper().Contains(search.ToUpper()) || anime.OtherName.ToUpper().Contains(search.ToUpper()))
 				{
-					animeSearch.Add(anime);
+                    ListViewItem animeItem = new ListViewItem
+                    {
+                        ContentTemplate = (DataTemplate)FindResource("AnimeListTemplate"),
+                        Content = anime
+                    };
+                    animesSearch.Add(animeItem);
 				}
 			}
-			lv_Anime.ItemsSource = animeSearch;
+			lv_Anime.ItemsSource = animesSearch;
 		}
 
-		private void Tb_Search_PreviewKeyUp(object sender, KeyEventArgs e)
+        private void Tb_Search_PreviewKeyUp(object sender, KeyEventArgs e)
 		{
 			Bt_Search_Click(sender, e);
 		}
@@ -99,24 +132,22 @@ namespace AnimeWatching
 		{
 			episodeList.Clear();
 			tb_Search.Clear();
-			vers = cb_VersAnime.Text;
-			animeList = scraping.SearchAnime(vers);
-			lv_Anime.ItemsSource = animeList;
-		}
+            string lang = cb_VersAnime.Text;
+            AnimeShow(lang);
+        }
 
 		private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			this.DragMove();
+			DragMove();
 		}
+        private void Bt_Min_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
 
 		private void Bt_Close_Click(object sender, RoutedEventArgs e)
 		{
 			Application.Current.Shutdown();
 		}
-
-        private void Bt_Min_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
     }
 }
